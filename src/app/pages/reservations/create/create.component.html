@@ -1,0 +1,121 @@
+<app-title tag="h1" className="mb-4">
+  Reservar habitación
+</app-title>
+@if(loadingContent()){
+<loader />
+} @else {
+<form [formGroup]="form" class="flex flex-col gap-4">
+  <div formArrayName="passengers" class="flex flex-col gap-4">
+    <ng-container *ngFor="let passForm of passengers.controls; index as i">
+      <div
+        class="border-2 border-l-4 dark:border-neutral-400 border-l-accent dark:border-l-accent bg-neutral-100 dark:bg-neutral-700/40 p-4 rounded-md flex flex-col gap-2"
+        [formGroupName]="i">
+        <div class="flex justify-between">
+          <app-title tag="h3" className="mb-4">
+            Pasajero {{i + 1}}
+          </app-title>
+          @if(passengers.length !== 1){
+          <lg-button type="button" variant="outlined" (click)="removePassenger(i)">
+            Quitar pasajero
+          </lg-button>
+          }
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <lg-text-input label="Nombre completo*" formControlName="name"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['name'])">
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['name'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["name"]) }}
+            </lg-alert>
+          </lg-text-input>
+          <lg-select-input label="Genero*" formControlName="gender"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['gender'])">
+            @for (item of genders | keyvalue; track item.key) {
+            <option [value]="item.key">
+              {{ item.value }}
+            </option>
+            }
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['gender'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["gender"]) }}
+            </lg-alert>
+          </lg-select-input>
+          <lg-select-input label="Tipo de documento*" formControlName="document_type"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['document_type'])">
+            @for (item of documentTypes | keyvalue; track item.key) {
+            <option [value]="item.key">
+              {{ item.value }}
+            </option>
+            }
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['document_type'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["document_type"]) }}
+            </lg-alert>
+          </lg-select-input>
+          <lg-number-input label="Documento*" formControlName="document"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['document'])">
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['document'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["document"]) }}
+            </lg-alert>
+          </lg-number-input>
+          <lg-date-input label="Fecha de nacimiento*" formControlName="birthdate"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['birthdate'])">
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['birthdate'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["birthdate"]) }}
+            </lg-alert>
+          </lg-date-input>
+          <lg-text-input label="Correo electrónico*" formControlName="email"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['email'])">
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['email'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["email"]) }}
+            </lg-alert>
+          </lg-text-input>
+          <lg-number-input label="Teléfono" formControlName="phone" [phoneFormat]="true"
+            [error]="formHelper.checkErrors(castToFG(passForm).controls['phone'])">
+            <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['phone'])" alertStyle="text"
+              alertType="error">
+              {{ formHelper.getErrors(castToFG(passForm).controls["phone"]) }}
+            </lg-alert>
+          </lg-number-input>
+        </div>
+      </div>
+    </ng-container>
+    @if(passengers.length < roomInfo.quantity){
+      <lg-button type="button" variant="outlined" class="flex justify-end" (click)="addPassengers()">
+        Agregar pasajero
+      </lg-button>
+    }
+  </div>
+
+
+  <app-title tag="h3" className="mb-2">
+    Contacto de emergencia
+  </app-title>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <lg-text-input label="Nombre completo*" formControlName="contact_emergency_name"
+      [error]="formHelper.checkErrors(form.controls['contact_emergency_name'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['contact_emergency_name'])" alertStyle="text"
+        alertType="error">
+        {{ formHelper.getErrors(form.controls["contact_emergency_name"]) }}
+      </lg-alert>
+    </lg-text-input>
+    <lg-number-input label="Teléfono*" formControlName="contact_emergency_phone" [phoneFormat]="true"
+      [error]="formHelper.checkErrors(form.controls['contact_emergency_phone'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['contact_emergency_phone'])" alertStyle="text"
+        alertType="error">
+        {{ formHelper.getErrors(form.controls["contact_emergency_phone"]) }}
+      </lg-alert>
+    </lg-number-input>
+  </div>
+  <div class="flex justify-center gap-4">
+    <lg-button (click)="goBack()">Cancelar</lg-button>
+    <lg-button (click)="sendReservation()" [disabled]="loading()">
+      <ng-container loading>Reservando</ng-container>
+      <ng-container>Reservar</ng-container>
+    </lg-button>
+  </div>
+</form>
+}

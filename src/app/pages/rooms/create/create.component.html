@@ -1,0 +1,53 @@
+<app-title tag="h1" className="mb-4">
+  {{id ? 'Editar' : 'Crear'}} habitación
+</app-title>
+<form [formGroup]="form" class="flex flex-col gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <lg-text-input label="Nombre de la habitación*" formControlName="name"
+      [error]="formHelper.checkErrors(form.controls['name'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['name'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["name"]) }}
+      </lg-alert>
+    </lg-text-input>
+    <lg-number-input label="Precio*" formControlName="price" [currencyFormat]="true"
+      [error]="formHelper.checkErrors(form.controls['price'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['price'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["price"]) }}
+      </lg-alert>
+    </lg-number-input>
+    <lg-number-input label="Impuestos*" formControlName="taxes" [currencyFormat]="true"
+      [error]="formHelper.checkErrors(form.controls['taxes'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['taxes'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["taxes"]) }}
+      </lg-alert>
+    </lg-number-input>
+    <lg-number-input label="Cantidad de huespedes*" formControlName="quantity"
+      [error]="formHelper.checkErrors(form.controls['quantity'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['quantity'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["quantity"]) }}
+      </lg-alert>
+    </lg-number-input>
+  </div>
+  <div>
+    <paragraph>Imagen de la habitación*</paragraph>
+    <lg-file-input formControlName="image" [acceptedTypes]="['image/png', 'image/jpg', 'image/jpeg']" inputID="image"
+      [error]="formHelper.checkErrors(form.controls['image'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['image'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["image"]) }}
+      </lg-alert>
+    </lg-file-input>
+  </div>
+  <lg-switch-input formControlName="enabled" [error]="formHelper.checkErrors(form.controls['enabled'])"
+    inputID="enabled" label="Activo">
+    <lg-alert [display]="formHelper.checkErrors(form.controls['enabled'])" alertStyle="text" alertType="error">
+      {{ formHelper.getErrors(form.controls["enabled"]) }}
+    </lg-alert>
+  </lg-switch-input>
+  <div class="flex justify-center gap-4">
+    <lg-button (click)="goBack()">Cancelar</lg-button>
+    <lg-button (click)="sendRoom()" [disabled]="loading()">
+      <ng-container loading>{{id ? 'Editando' : 'Creando'}}</ng-container>
+      <ng-container>{{id ? 'Editar' : 'Crear'}}</ng-container>
+    </lg-button>
+  </div>
+</form>

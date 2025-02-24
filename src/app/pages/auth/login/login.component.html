@@ -1,0 +1,27 @@
+<form class="text-center flex flex-col gap-4 max-w-[350px]">
+  <app-title tag="h1" weight="bold" className="mb-3 lg:w-[350px]"
+    >{{isLogin ? 'Inicio de sesión' : 'Registro'}}</app-title
+  >
+  <div [formGroup]="form" class="flex flex-col gap-2">
+    <lg-text-input formControlName="email" label="Correo" labelStyle="Default"
+      [error]="formHelper.checkErrors(form.controls['email'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['email'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["email"]) }}
+      </lg-alert>
+    </lg-text-input>
+    <lg-password-input formControlName="password" label="Contraseña" labelStyle="Default"
+      [error]="formHelper.checkErrors(form.controls['password'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['password'])" alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form.controls["password"]) }}
+      </lg-alert>
+    </lg-password-input>
+  </div>
+
+  <lg-button type="button" buttonWidthStyle="full" (click)="validateMethod()" [disabled]="loading()">
+    <ng-container>{{isLogin ? 'Iniciar sesión' : 'Registrate'}}</ng-container>
+  </lg-button>
+
+  <app-link size="xs" [link]="isLogin ? '/acceso/registro' : '/acceso/inicio-sesion'"
+    >{{isLogin ? '¿No tienes una cuenta? Registrate' : '¿Tienes una cuenta? Inicia sesión'}}</app-link
+  >
+</form>

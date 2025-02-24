@@ -1,0 +1,24 @@
+@if (isHref) {
+<a
+  [ngClass]="fontSizeClass"
+  class="transition-colors duration-300 hover:text-accent hover:underline opacity-80"
+  [href]="link ? link : null"
+  [target]="target"
+  (click)="link ? null : handleClick($event)"
+>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+</a>
+} @else {
+<a
+  [ngClass]="fontSizeClass"
+  class="transition-colors duration-300 hover:text-accent hover:underline opacity-80"
+  [routerLink]="link ? link : null"
+  (click)="link ? null : handleClick($event)"
+>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+</a>
+}
+
+<ng-template #content>
+  <ng-content select="*"></ng-content>
+</ng-template>

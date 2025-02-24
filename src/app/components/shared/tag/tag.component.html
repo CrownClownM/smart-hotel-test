@@ -1,0 +1,9 @@
+<span
+  class="flex items-center text-[0.8rem] px-[1.3rem] py-[0.1rem] rounded-full bg-[var(--color)] text-white font-medium whitespace-nowrap max-w-[130px] truncate"
+  [tooltip]="(showTooltip) ? content : ''"
+  [ngStyle]="{'--color': getColor(color)}"
+  [tooltipPosition]="tooltipPosition"
+>
+  {{content ? content : null}}
+  <ng-content select="*"></ng-content>
+</span>

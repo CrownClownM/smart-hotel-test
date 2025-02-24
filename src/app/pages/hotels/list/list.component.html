@@ -1,0 +1,58 @@
+<div class="flex flex-col gap-4">
+  <app-title tag="h1" className="mb-4">
+    Listado de hoteles
+  </app-title>
+  @if(isAdmin){
+    <lg-button type="button" class="flex justify-center" (click)="goCreate()">
+      Crear hotel
+    </lg-button>
+  }
+  @if(loading()){
+  <loader />
+  } @else {
+    @let data = hotelService.hotelsList$();
+    @if(data.length === 0){
+    <lg-alert alertStyle="box" alertType="info">
+      No hay hoteles disponibles.
+    </lg-alert>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        @for (item of data; track $index) {
+        <app-card>
+          <img [src]="item.imageUrl" alt="Hotel Image" class="h-48 w-full object-fill">
+          <div class="p-4">
+            <app-title tag="h3">{{ item.name | titlecase}}</app-title>
+            <paragraph>{{ item.location }}</paragraph>
+            <div class="flex justify-between items-center">
+              @if(isAdmin){
+                <tag [content]="contentTag(item.enabled)" [color]="colorTag(item.enabled)" />
+              } @else {
+                <div></div>
+              }
+              <div class="flex gap-1">
+                @if(isAdmin){
+                  <lg-icon-button tooltip="Editar" (click)="goEdit(item.id)">
+                    <i #icon class="fa-solid fa-pen-to-square"></i>
+                  </lg-icon-button>
+                  @if(item.enabled){
+                  <lg-icon-button tooltip="Deshabilitar" (click)="changeStatus(item.id, false)">
+                    <i #icon class="fa-solid fa-ban"></i>
+                  </lg-icon-button>
+                  } @else {
+                  <lg-icon-button tooltip="Habilitar" (click)="changeStatus(item.id, true)">
+                    <i #icon class="fa-solid fa-check"></i>
+                  </lg-icon-button>
+                  }
+                }
+                <lg-icon-button tooltip="Habitaciones" (click)="goRooms(item.id)">
+                  <i #icon class="fa-solid fa-door-closed"></i>
+                </lg-icon-button>
+              </div>
+            </div>
+          </div>
+        </app-card>
+        }
+      </div>
+    }
+  }
+</div>

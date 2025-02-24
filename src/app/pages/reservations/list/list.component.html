@@ -1,0 +1,45 @@
+<div class="flex flex-col gap-4">
+  <app-title tag="h1" className="mb-4">
+    Listado de reservaciones
+  </app-title>
+  @if(loading()){
+  <loader />
+  } @else {
+  @let data = reservationsService.reservationsList$();
+  @if(data.length === 0){
+  <lg-alert alertStyle="box" alertType="info">
+    No hay reservaciones realizadas.
+  </lg-alert>
+  } @else {
+  <lg-table [headings]="headings">
+    @for (item of data; track $index) {
+    <tr>
+      <td>
+        <label>{{ headings[0] }}</label>
+        <div>{{ item.hotel }}</div>
+      </td>
+      <td>
+        <label>{{ headings[1] }}</label>
+        <div>{{ item.room }}</div>
+      </td>
+      <td>
+        <label>{{ headings[2] }}</label>
+        <div>
+          {{item.price}}
+        </div>
+      </td>
+      <td>
+        <label>{{ headings[3] }}</label>
+        <div class="flex flex-row justify-end md:justify-center">
+          <lg-dropdown>
+            <table-action>
+              <i class="fa-solid fa-eye"></i> Ver detalles
+            </table-action>
+          </lg-dropdown>
+        </div>
+      </td>
+    </tr>
+    }
+  </lg-table>
+  }
+  }

@@ -1,0 +1,11 @@
+<li class="list-none">
+  <a
+    [attr.role]="!url ? 'button' : 'link'"
+    class="flex flex-row items-center gap-2 py-1 px-2 cursor-pointer hover:text-accent hover:bg-accent-hover transition-colors rounded-md {{
+      className
+    }}"
+    [routerLink]="url ? url : null"
+  >
+    <ng-content select="*"></ng-content>
+  </a>
+</li>

@@ -1,0 +1,89 @@
+@if(controller._toggleAside$()){
+<div
+  class="right-0 w-[100%] h-[100%] fixed bg-[#7b7b7b33] dark:bg-[#31313133]"
+  (click)="closeSidebar()"
+></div>
+
+}
+<aside
+  class="fixed min-h-screen bg-white border-gray-200 dark:bg-neutral-700 dark:border-gray-400 lg:translate-x-0 transition-[width] duration-300 z-50"
+  [ngClass]="sideBarClass"
+  aria-label="Sidebar"
+  id="sidebar"
+>
+   <div class="h-full px-3 pt-4 pb-4 flex flex-col gap-2 overflow-y-auto bg-white dark:bg-neutral-700">
+       <ul class="flex flex-col space-y-2 font-medium justify-cente overflow-hidden">
+           @for(option of sidebarOptions; track $index; let idx = $index){
+           <div [ngClass]="activeSuboptionsList(option.label)">
+                 <li>
+                   <button
+                        (click)="action(option)"
+                        class="flex items-center p-2 text-font-color dark:text-white/80 rounded-md w-[100%] transition-[width] duration-300"
+                        [ngClass]="[listItemsClass, activeSuboptions(option.label)]">
+                       <div class="flex flex-row justify-start items-baseline">
+                            @if(controller._toggleAside$()){
+                              <i [class]="option.icon"></i>
+                            } @else {
+                              <div class="min-w-[44px] flex justify-start" [tooltip]="option.label" tooltipPosition="right">
+                                <i [class]="option.icon + ' ml-[0.3rem]'"></i>
+                              </div>
+                            }
+                            <span class="ms-3 whitespace-nowrap overflow-hidden transition-[width] duration-400" [ngClass]="listLabelClass">{{option.label | limitText: 20}}</span>
+                        </div>
+                        @if(controller._toggleAside$() && option.subItems){
+                            <i class="fa-solid fa-caret-down transform transition-transform duration-300" [ngClass]="activeSubmenu(option.label)"></i>
+                        }
+                    </button>
+                    @if(option.subItems){
+                    <ul
+                    [class.mt-2]="(option.subItems || []).length > 0 && isActiveOption(option.label)"
+                        data-options-container="true"
+                        [attr.id]="(option.label | replaceSpaces) + '_options'"
+                        class="flex flex-col gap-y-2 overflow-hidden transition-all duration-300 h-0" >
+                        @for (subItem of option.subItems; track $index) {
+                        <li class="flex" [ngClass]="listButtonsClass">
+                            <button
+                                [attr.id]="subItem.label+'_options'"
+                                class="flex items-center p-2 text-font-color dark:text-white/80 hover:bg-accent rounded-md w-[95%]"
+                                [ngClass]="listItemsClass" (click)="action(subItem)">
+                                <div class="flex flex-row items-baseline">
+                                    @if(controller._toggleAside$()){
+                                        <i [class]="subItem.icon"></i>
+                                    } @else {
+                                      <div class="min-w-[44px] flex justify-start" [tooltip]="subItem.label" tooltipPosition="right">
+                                        <i [class]="subItem.icon + ' ml-[0.3rem]'"></i>
+                                      </div>
+                                    }
+                                <span class="ms-3 whitespace-nowrap" [ngClass]="listLabelClass">
+                                    {{subItem.label | limitText: 20}}
+                                </span>
+                                </div>
+                            </button>
+                        </li>
+                        }
+                    </ul>
+                    }
+                </li>
+            </div>
+            }
+            <li>
+                <button
+                    class="flex items-center p-2 text-font-color dark:text-white/80 rounded-md w-[100%] transition-[width] duration-300"
+                    [ngClass]="[listItemsClass]" (click)="closeSesssion()">
+                    <div class="flex items-baseline">
+                        @if(controller._toggleAside$()){
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        } @else {
+                          <div class="min-w-[44px] flex justify-start" tooltip="Cerrar sesión" tooltipPosition="right">
+                            <i class="fa-solid fa-arrow-right-from-bracket ml-[0.3rem]"></i>
+                          </div>
+                        }
+                        <span class="ms-3 whitespace-nowrap" [ngClass]="listLabelClass">
+                            Cerrar sesión
+                        </span>
+                    </div>
+                </button>
+            </li>
+        </ul>
+    </div>
+</aside>

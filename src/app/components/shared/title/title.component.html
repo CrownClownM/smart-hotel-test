@@ -1,0 +1,37 @@
+
+@switch (tag) {
+  @case ('h1') {
+    <h1 [class]="standardClass" [ngClass]="[titleClass, fontWeight, className]">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </h1>
+  }
+  @case ('h2') {
+    <h2 [class]="standardClass" [ngClass]="[titleClass, fontWeight, className]">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </h2>
+  }
+  @case ('h3') {
+    <h3 [class]="standardClass" [ngClass]="[titleClass, fontWeight, className]">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </h3>
+  }
+  @case ('h4') {
+    <h4 [class]="standardClass" [ngClass]="[titleClass, fontWeight, className]">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </h4>
+  }
+  @case ('h5') {
+    <h5 [class]="standardClass" [ngClass]="[titleClass, fontWeight, className]">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </h5>
+  }
+  @case ('h6') {
+    <h6 [class]="standardClass" [ngClass]="[titleClass, fontWeight, className]">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </h6>
+  }
+}
+
+<ng-template #content>
+  <ng-content select="*"></ng-content>
+</ng-template>

@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #34a3b9;
+  --accent-light: #e4faff;
+  --accent-hover: #34a3b99f;
+  --secondary: #2ecc71;
+  --secondary-light: #dcffeb;
+  --secondary-hover: #a1ffc8;
+  --tertiary: #1a68ce;
+  --tertiary-light: #aacfff;
+  --tertiary-hover: #7db5ff;
+  --text-color: rgb(102, 102, 102);
+  --error: rgb(180, 24, 24);
+  --disabled-background: #e4e0e3;
+  --disabled-text: #a7a4a6;
+}
+
+html {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) #fff;
+}
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
