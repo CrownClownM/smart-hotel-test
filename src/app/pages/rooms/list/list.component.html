@@ -22,12 +22,14 @@
       <img [src]="item.imageUrl" alt="Room Image" class="h-48 w-full object-cover">
       <div class="p-4">
         <app-title tag="h3">{{ item.name | titlecase }}</app-title>
-        <paragraph>{{ item.price | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</paragraph>
         <div class="flex justify-between items-center">
           @if(isAdmin){
             <tag [content]="contentTag(item.enabled)" [color]="colorTag(item.enabled)" />
           } @else {
-            <div></div>
+            <div class="flex flex-col">
+              <paragraph>Valor base: {{item.price | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</paragraph>
+              <paragraph>Impuestos: {{item.taxes || 0 | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</paragraph>
+            </div>
           }
           <div class="flex gap-1">
             @if(isAdmin){

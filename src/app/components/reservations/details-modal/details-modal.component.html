@@ -1,0 +1,34 @@
+<lg-modal>
+  <div class="flex flex-col gap-4">
+    <app-title tag="h3">Detalles de reserva</app-title>
+    @if(reservationData !== null){
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <paragraph><span class="font-semibold">Fecha de inicio: </span>{{reservationData.start_date}}</paragraph>
+      <paragraph><span class="font-semibold">Fecha de fin: </span>{{reservationData.end_date}}</paragraph>
+    </div>
+    @for(passenger of reservationData.passengers; track $index; let idx = $index){
+    <div
+      class="border-2 border-l-4 dark:border-neutral-400 border-l-accent dark:border-l-accent bg-neutral-100 dark:bg-neutral-700/40 p-4 rounded-md">
+      <paragraph className="font-semibold mb-2">Pasajero {{idx + 1}}</paragraph>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <paragraph><span class="font-semibold">Nombre: </span>{{passenger.name | titlecase}}</paragraph>
+        <paragraph><span class="font-semibold">Tipo de documento: </span>{{passenger.document_type}}</paragraph>
+        <paragraph><span class="font-semibold">Documento: </span>{{passenger.document}}</paragraph>
+        <paragraph><span class="font-semibold">Fecha de nacimiento: </span>{{passenger.birthdate}}</paragraph>
+        <paragraph><span class="font-semibold">Genero: </span>{{passenger.gender}}</paragraph>
+        <paragraph><span class="font-semibold">Teléfono: </span>{{passenger.phone}}</paragraph>
+        <paragraph><span class="font-semibold">Correo: </span>Correo:{{passenger.email}}</paragraph>
+      </div>
+    </div>
+    }
+    <paragraph className="font-bold">Contacto de emergencia</paragraph>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <paragraph><span class="font-semibold">Nombre: </span>{{reservationData.contact_emergency_name | titlecase}}
+      </paragraph>
+      <paragraph><span class="font-semibold">Teléfono: </span>{{reservationData.contact_emergency_phone}}</paragraph>
+    </div>
+    } @else {
+    <loader></loader>
+    }
+  </div>
+</lg-modal>

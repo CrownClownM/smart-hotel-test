@@ -1,5 +1,6 @@
 export interface roomsData {
   id:       string;
+  hotelId:  string;
   name:     string;
   price:    number;
   taxes:    number;

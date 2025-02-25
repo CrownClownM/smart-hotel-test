@@ -1,3 +1,24 @@
+# Angular Project - Application for SMART 🚀
+
+This is an Angular project developed as part of my application for the Frontend Developer position at SMART. I designed this application to showcase my skills in Angular, best practices and creating an optimal user experience.
+
+I am excited about the opportunity to join SMART and contribute my knowledge to the growth of the team and the company. 
+
+# 🛠️ Technologies Used
+- Angular 19
+- TypeScript
+- Tailwind CSS
+- Angular Material
+- RxJS & Signals
+
+# 📝 Test Users
+
+You can use the following credentials to test the application:
+|Email|Role|Password|
+|----|-----------|-------|
+| johndoe@mail.com | Administrator | admin123 |
+| perrete@mail.com | Traveler | admin123 |
+
 # HotelManagementSmartTest
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.

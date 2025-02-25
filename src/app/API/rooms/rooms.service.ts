@@ -16,7 +16,7 @@ import {
   Storage,
   uploadBytes,
 } from '@angular/fire/storage';
-import { roomsData } from '@interfaces/rooms/hotels.interface';
+import { roomsData } from '@interfaces/rooms/rooms.interface';
 import { from, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({

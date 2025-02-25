@@ -89,7 +89,25 @@
       </lg-button>
     }
   </div>
-
+  <app-title tag="h3" className="mb-2">
+    Fechas de la estadía
+  </app-title>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <lg-date-input label="Fecha inicial*" formControlName="start_date"
+      [error]="formHelper.checkErrors(form.controls['start_date'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['start_date'])" alertStyle="text"
+        alertType="error">
+        {{ formHelper.getErrors(form.controls["start_date"]) }}
+      </lg-alert>
+    </lg-date-input>
+    <lg-date-input label="Fecha final*" formControlName="end_date"
+      [error]="formHelper.checkErrors(form.controls['end_date'])">
+      <lg-alert [display]="formHelper.checkErrors(form.controls['end_date'])" alertStyle="text"
+        alertType="error">
+        {{ formHelper.getErrors(form.controls["end_date"]) }}
+      </lg-alert>
+    </lg-date-input>
+  </div>
 
   <app-title tag="h3" className="mb-2">
     Contacto de emergencia

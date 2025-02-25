@@ -30,39 +30,7 @@
                             }
                             <span class="ms-3 whitespace-nowrap overflow-hidden transition-[width] duration-400" [ngClass]="listLabelClass">{{option.label | limitText: 20}}</span>
                         </div>
-                        @if(controller._toggleAside$() && option.subItems){
-                            <i class="fa-solid fa-caret-down transform transition-transform duration-300" [ngClass]="activeSubmenu(option.label)"></i>
-                        }
                     </button>
-                    @if(option.subItems){
-                    <ul
-                    [class.mt-2]="(option.subItems || []).length > 0 && isActiveOption(option.label)"
-                        data-options-container="true"
-                        [attr.id]="(option.label | replaceSpaces) + '_options'"
-                        class="flex flex-col gap-y-2 overflow-hidden transition-all duration-300 h-0" >
-                        @for (subItem of option.subItems; track $index) {
-                        <li class="flex" [ngClass]="listButtonsClass">
-                            <button
-                                [attr.id]="subItem.label+'_options'"
-                                class="flex items-center p-2 text-font-color dark:text-white/80 hover:bg-accent rounded-md w-[95%]"
-                                [ngClass]="listItemsClass" (click)="action(subItem)">
-                                <div class="flex flex-row items-baseline">
-                                    @if(controller._toggleAside$()){
-                                        <i [class]="subItem.icon"></i>
-                                    } @else {
-                                      <div class="min-w-[44px] flex justify-start" [tooltip]="subItem.label" tooltipPosition="right">
-                                        <i [class]="subItem.icon + ' ml-[0.3rem]'"></i>
-                                      </div>
-                                    }
-                                <span class="ms-3 whitespace-nowrap" [ngClass]="listLabelClass">
-                                    {{subItem.label | limitText: 20}}
-                                </span>
-                                </div>
-                            </button>
-                        </li>
-                        }
-                    </ul>
-                    }
                 </li>
             </div>
             }

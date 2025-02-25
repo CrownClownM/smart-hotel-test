@@ -7,6 +7,10 @@ export class Permissions {
     this._user = storage.GET({ key: 'userData' });
   }
 
+  get user(): any | null{
+    return this._user ?? structuredClone(this._user);
+  }
+
   get isAdmin() {
     return this._user?.role === 'admin';
   }

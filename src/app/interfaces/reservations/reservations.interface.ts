@@ -6,6 +6,8 @@ export interface reservationsData {
   room:                    string;
   price:                   number;
   roomId:                  string;
+  start_date:              Date;
+  end_date:                Date;
   passengers:              Passenger[];
 }
 

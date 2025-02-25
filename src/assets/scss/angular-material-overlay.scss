@@ -1,0 +1,17 @@
+.cdk-overlay-container {
+  z-index: 1040;
+  overflow: auto;
+  -webkit-overflow-scrolling: 'touch';
+}
+
+.cdk-global-overlay-wrapper {
+  height: 100%;
+}
+
+.cdk-overlay-container:has(.cdk-overlay-backdrop) {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.cdk-overlay-container:has(.cdk-overlay-backdrop) .cdk-overlay-backdrop {
+  background: none;
+}

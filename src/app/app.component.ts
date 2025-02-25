@@ -4,6 +4,10 @@ import { APP_FORM_ERRORS } from '@utils/app-errors';
 import { notification } from '@utils/notifications';
 import { initTheme } from '@utils/theme';
 import { FormHelperService } from 'logical-growth-components';
+import localeEsCo from '@angular/common/locales/es-CO';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEsCo, 'es-CO');
 
 @Component({
   selector: 'app-root',

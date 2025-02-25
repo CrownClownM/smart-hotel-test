@@ -16,23 +16,23 @@
     <tr>
       <td>
         <label>{{ headings[0] }}</label>
-        <div>{{ item.hotel }}</div>
+        <div>{{ item.hotel | titlecase }}</div>
       </td>
       <td>
         <label>{{ headings[1] }}</label>
-        <div>{{ item.room }}</div>
+        <div>{{ item.room | titlecase  }}</div>
       </td>
       <td>
         <label>{{ headings[2] }}</label>
         <div>
-          {{item.price}}
+          {{item.price | currency : 'COP' : 'symbol-narrow' : '.0-0'}}
         </div>
       </td>
       <td>
         <label>{{ headings[3] }}</label>
         <div class="flex flex-row justify-end md:justify-center">
           <lg-dropdown>
-            <table-action>
+            <table-action (click)="openModalDetails(item)">
               <i class="fa-solid fa-eye"></i> Ver detalles
             </table-action>
           </lg-dropdown>
