@@ -1,18 +1,17 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@API/auth/auth.service';
 import { $, $$ } from '@utils/js-selector';
-import { ReplaceSpacesPipe } from '@utils/pipes/replace-spaces.pipe';
+import { storage } from '@utils/storage-handlers';
 import { limitTextPipe, TooltipDirective } from 'logical-growth-components';
 import { SidebarOption } from './sidebar.interface';
 import { SideBarService } from './sidebar.service';
-import { AuthService } from '@API/auth/auth.service';
-import { storage } from '@utils/storage-handlers';
 
 @Component({
   selector: 'Sidebar',
   standalone: true,
-  imports: [NgClass, limitTextPipe, TooltipDirective, ReplaceSpacesPipe],
+  imports: [NgClass, limitTextPipe, TooltipDirective],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit {
