@@ -7,16 +7,17 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotelsService } from '@API/hotels/hotels.service';
+import { TitleComponent } from '@components/shared/title/title.component';
+import { notification } from '@utils/notifications';
 import {
   AlertModule,
   ButtonModule,
+  CityInputModule,
   FileInputModule,
   FormHelperService,
   SwitchInputModule,
-  TextInputModule,
+  TextInputModule
 } from 'logical-growth-components';
-import { TitleComponent } from '@components/shared/title/title.component';
-import { notification } from '@utils/notifications';
 import { ParagraphComponent } from "../../../components/shared/paragraph/paragraph.component";
 
 @Component({
@@ -29,7 +30,8 @@ import { ParagraphComponent } from "../../../components/shared/paragraph/paragra
     TitleComponent,
     AlertModule,
     SwitchInputModule,
-    ParagraphComponent
+    ParagraphComponent,
+    CityInputModule
 ],
   templateUrl: './create.component.html',
 })
@@ -77,6 +79,7 @@ export class CreateComponent implements OnInit {
       form: this.form,
       selector: '.error',
       callback: (value) => {
+        value.location = value.location.city;
         this.loading.set(true);
         this.id ? this.updateHotel(value) : this.createHotel(value);
       },

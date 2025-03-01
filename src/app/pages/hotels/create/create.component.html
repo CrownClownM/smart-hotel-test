@@ -9,12 +9,12 @@
         {{ formHelper.getErrors(form.controls["name"]) }}
       </lg-alert>
     </lg-text-input>
-    <lg-text-input label="Localización" formControlName="location"
-      [error]="formHelper.checkErrors(form.controls['location'])">
+    <lg-city-input label="Localización" formControlName="location"
+    [error]="formHelper.checkErrors(form.controls['location'])">
       <lg-alert [display]="formHelper.checkErrors(form.controls['location'])" alertStyle="text" alertType="error">
         {{ formHelper.getErrors(form.controls["location"]) }}
       </lg-alert>
-    </lg-text-input>
+    </lg-city-input>
   </div>
   <div>
     <paragraph>Imagen del hotel*</paragraph>

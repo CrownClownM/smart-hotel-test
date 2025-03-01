@@ -36,14 +36,14 @@ export class SideBarService {
     return {
       admin: [
         {
-          label: 'Inicio',
-          icon: 'fa-solid fa-house',
-          linkTo: '/app/inicio',
-        },
-        {
           label: 'Hoteles',
           icon: 'fa-solid fa-building-user',
           linkTo: '/app/hoteles/lista'
+        },
+        {
+          label: 'Habitaciones',
+          icon: 'fa-solid fa-door-closed',
+          linkTo: '/app/habitaciones/lista-habitaciones'
         },
         {
           label: 'Reservaciones',
@@ -53,14 +53,14 @@ export class SideBarService {
       ],
       traveler: [
         {
-          label: 'Inicio',
-          icon: 'fa-solid fa-house',
-          linkTo: '/app/inicio',
-        },
-        {
           label: 'Hoteles',
           icon: 'fa-solid fa-building-user',
           linkTo: '/app/hoteles/lista'
+        },
+        {
+          label: 'Habitaciones',
+          icon: 'fa-solid fa-door-closed',
+          linkTo: '/app/habitaciones/lista-habitaciones'
         },
         {
           label: 'Reservaciones',

@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "date-fns": "^4.1.0",
     "firebase": "^11.3.1",
     "logical-growth-components": "^2.32.83",
     "resend": "^4.1.2",

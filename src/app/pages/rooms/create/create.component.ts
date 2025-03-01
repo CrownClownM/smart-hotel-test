@@ -20,6 +20,8 @@ import { Location } from '@angular/common';
 import { TitleComponent } from '@components/shared/title/title.component';
 import { notification } from '@utils/notifications';
 import { ParagraphComponent } from "../../../components/shared/paragraph/paragraph.component";
+import { HotelsService } from '@API/hotels/hotels.service';
+import { hotelsData } from '@interfaces/hotels/hotels.interface';
 
 @Component({
   selector: 'app-create',
@@ -39,11 +41,13 @@ import { ParagraphComponent } from "../../../components/shared/paragraph/paragra
 export class CreateComponent implements OnInit {
   public id: string | null = null;
   public idHotel: string | null = null;
+  public hotelData!: hotelsData;
   public form!: FormGroup;
   public loading = signal<boolean>(false);
 
   constructor(
     private _fb: FormBuilder,
+    private _hotelService: HotelsService,
     private _roomsService: RoomsService,
     public formHelper: FormHelperService,
     private _activatedRoute: ActivatedRoute,
@@ -67,6 +71,11 @@ export class CreateComponent implements OnInit {
       });
       this._setValidators();
     }
+    this._hotelService.getHotelById(this.idHotel!).subscribe({
+      next: (response) => {
+        this.hotelData = response;
+      },
+    });
   }
   private _setValidators() {
     this.form.get('image')?.clearValidators();
@@ -98,6 +107,7 @@ export class CreateComponent implements OnInit {
 
   public createRoom(value: any, image: any): void {
     value.hotelId = this.idHotel;
+    value.location = this.hotelData.location;
     this._roomsService.addRoom(value, image).subscribe({
       next: () => {
         notification.fire({

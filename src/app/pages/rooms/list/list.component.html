@@ -6,7 +6,41 @@
   <lg-button type="button" class="flex justify-center" (click)="goCreate()">
     Crear habitación
   </lg-button>
-}
+  }@else {
+    <form [formGroup]="form" class="flex gap-2 items-baseline m-auto">
+      @if(isGeneralList){
+        <lg-city-input label="Ciudad" formControlName="ubication" [error]="formHelper.checkErrors(form.controls['ubication'])">
+          <lg-alert [display]="formHelper.checkErrors(form.controls['ubication'])" alertStyle="text" alertType="error">
+            {{ formHelper.getErrors(form.controls["ubication"]) }}
+          </lg-alert>
+        </lg-city-input>
+      }
+      <lg-date-input label="Llegada" formControlName="start_date" [error]="formHelper.checkErrors(form.controls['start_date'])" [min]="minDate()">
+        <lg-alert [display]="formHelper.checkErrors(form.controls['start_date'])" alertStyle="text" alertType="error">
+          {{ formHelper.getErrors(form.controls["start_date"]) }}
+        </lg-alert>
+      </lg-date-input>
+      <lg-date-input label="Salida" formControlName="end_date" [error]="formHelper.checkErrors(form.controls['end_date'])" [min]="minDate()">
+        <lg-alert [display]="formHelper.checkErrors(form.controls['end_date'])" alertStyle="text" alertType="error">
+          {{ formHelper.getErrors(form.controls["end_date"]) }}
+        </lg-alert>
+      </lg-date-input>
+      <lg-number-input label="Huespedes" formControlName="guests" [error]="formHelper.checkErrors(form.controls['guests'])" [returnAsNumber]="true">
+        <lg-alert [display]="formHelper.checkErrors(form.controls['guests'])" alertStyle="text" alertType="error">
+          {{ formHelper.getErrors(form.controls["guests"]) }}
+        </lg-alert>
+      </lg-number-input>
+      <lg-button type="button" (click)="searchParams()">Buscar</lg-button>
+      <lg-button type="button" (click)="clearSearch()">Listar todos</lg-button>
+    </form>
+    <div class="m-auto">
+      <lg-alert [display]="(form.hasError('invalidDate') || form.hasError('invalidRange')) &&
+        form.get('start_date')!.touched && form.get('end_date')!.touched"
+        alertStyle="text" alertType="error">
+        {{ formHelper.getErrors(form) }}
+      </lg-alert>
+    </div>
+  }
   @if(loading()){
   <loader />
   } @else {
@@ -27,6 +61,7 @@
             <tag [content]="contentTag(item.enabled)" [color]="colorTag(item.enabled)" />
           } @else {
             <div class="flex flex-col">
+              <paragraph>Cantidad de huespedes: {{item.quantity}}</paragraph>
               <paragraph>Valor base: {{item.price | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</paragraph>
               <paragraph>Impuestos: {{item.taxes || 0 | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</paragraph>
             </div>

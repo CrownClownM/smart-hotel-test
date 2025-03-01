@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { addDoc, collection, doc, docData, Firestore, getDocs } from '@angular/fire/firestore';
+import { addDoc, collection, doc, docData, Firestore, getDocs, query, where } from '@angular/fire/firestore';
 import { reservationsData } from '@interfaces/reservations/reservations.interface';
 import { from, map, Observable } from 'rxjs';
 
@@ -20,6 +20,23 @@ export class ReservationsService {
           const data = doc.data() as Omit<reservationsData, 'id'>;
           return { id: doc.id, ...data };
         });
+        this._reservationsList$.set(rooms);
+        return rooms;
+      })
+    );
+  }
+
+  public getReservationsByUser(userId: string) {
+    const ref = collection(this._firestore, 'reservations');
+    const q = query(ref, where('userId', '==', userId));
+
+    return from(getDocs(q)).pipe(
+      map((snapshot) => {
+        const rooms: reservationsData[] = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }) as reservationsData);
+
         this._reservationsList$.set(rooms);
         return rooms;
       })

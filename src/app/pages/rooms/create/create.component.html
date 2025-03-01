@@ -21,7 +21,7 @@
         {{ formHelper.getErrors(form.controls["taxes"]) }}
       </lg-alert>
     </lg-number-input>
-    <lg-number-input label="Cantidad de huespedes*" formControlName="quantity"
+    <lg-number-input label="Cantidad de huespedes*" formControlName="quantity" [returnAsNumber]="true"
       [error]="formHelper.checkErrors(form.controls['quantity'])">
       <lg-alert [display]="formHelper.checkErrors(form.controls['quantity'])" alertStyle="text" alertType="error">
         {{ formHelper.getErrors(form.controls["quantity"]) }}

@@ -2,6 +2,10 @@ import { Route } from "@angular/router";
 
 export const RoomsRoutes: Route[] = [
   {
+    path: 'lista-habitaciones',
+    loadComponent: () => import('@pages/rooms/list/list.component').then(c => c.ListComponent)
+  },
+  {
     path: 'lista/:idHotel',
     loadComponent: () => import('@pages/rooms/list/list.component').then(c => c.ListComponent)
   },

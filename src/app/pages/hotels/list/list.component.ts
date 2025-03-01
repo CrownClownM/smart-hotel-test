@@ -7,6 +7,7 @@ import { LoaderComponent } from "@components/shared/loader/loader.component";
 import { ParagraphComponent } from "@components/shared/paragraph/paragraph.component";
 import { TagComponent } from "@components/shared/tag/tag.component";
 import { TitleComponent } from "@components/shared/title/title.component";
+import { notification } from '@utils/notifications';
 import { Permissions } from '@utils/permissions';
 import { AlertModule, ButtonModule, IconButtonModule, TooltipDirective } from 'logical-growth-components';
 
@@ -17,11 +18,12 @@ import { AlertModule, ButtonModule, IconButtonModule, TooltipDirective } from 'l
 })
 export class ListComponent extends Permissions implements OnInit {
 
-  public hotelService = inject(HotelsService);
+
   private _router = inject(Router);
   public loading = signal<boolean>(false);
 
   constructor(
+    public hotelService: HotelsService
   ) {
     super();
   }
@@ -32,7 +34,26 @@ export class ListComponent extends Permissions implements OnInit {
 
   private _fetchData(): void {
     this.loading.set(true);
+    if(this.isAdmin){
+      this._obtainAdminHotels();
+    } else {
+      this._obtainUserHotels();
+    }
+  }
+
+  private _obtainAdminHotels(): void {
     this.hotelService.getCollection().subscribe({
+      next: () => {
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+      }
+    });
+  }
+
+  private _obtainUserHotels(): void {
+    this.hotelService.getHotelsUser().subscribe({
       next: () => {
         this.loading.set(false);
       },
@@ -53,6 +74,11 @@ export class ListComponent extends Permissions implements OnInit {
   public changeStatus(id: string, status: boolean): void {
     this.hotelService.updateHotel(id, { enabled: status }).subscribe({
       next: () => {
+        notification.fire({
+          title: 'Hotel',
+          text: 'Se ha cambiardo el estado correctamente',
+          type: 'success',
+        });
         this._fetchData();
       },
     });

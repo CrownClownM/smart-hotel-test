@@ -1,14 +1,28 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { addDoc, collection, doc, docData, Firestore, getDocs, updateDoc } from '@angular/fire/firestore';
-import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
+import {
+  addDoc,
+  collection,
+  doc,
+  docData,
+  Firestore,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from '@angular/fire/firestore';
+import {
+  getDownloadURL,
+  ref,
+  Storage,
+  uploadBytes,
+} from '@angular/fire/storage';
 import { hotelsData } from '@interfaces/hotels/hotels.interface';
 import { from, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotelsService {
-
   private _firestore = inject(Firestore);
   private _storage = inject(Storage);
 
@@ -18,16 +32,32 @@ export class HotelsService {
   public getCollection() {
     const ref = collection(this._firestore, 'hotels ');
     return from(getDocs(ref)).pipe(
-/*       map((snapshot) =>
-        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      ) */
       map((snapshot) => {
-        const rooms: hotelsData[] = snapshot.docs.map((doc) => {
+        const hotels: hotelsData[] = snapshot.docs.map((doc) => {
           const data = doc.data() as Omit<hotelsData, 'id'>;
           return { id: doc.id, ...data };
         });
-        this._hotelsList$.set(rooms);
-        return rooms;
+        this._hotelsList$.set(hotels);
+        return hotels;
+      })
+    );
+  }
+
+  public getHotelsUser() {
+    const ref = collection(this._firestore, 'hotels ');
+    const q = query(ref, where('enabled', '==', true));
+
+    return from(getDocs(q)).pipe(
+      map((snapshot) => {
+        const hotels: hotelsData[] = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as hotelsData)
+        );
+        this._hotelsList$.set(hotels);
+        return hotels;
       })
     );
   }
@@ -46,7 +76,11 @@ export class HotelsService {
     );
   }
 
-  public updateHotel(id: string, updatedData: any, file?: File): Observable<void> {
+  public updateHotel(
+    id: string,
+    updatedData: any,
+    file?: File
+  ): Observable<void> {
     const hotelRef = doc(this._firestore, `hotels /${id}`);
     return this._uploadHotelImage(file, id).pipe(
       switchMap((imageUrl) => {
@@ -56,7 +90,10 @@ export class HotelsService {
     );
   }
 
-  private _uploadHotelImage(file?: File, hotelId?: string): Observable<string | null> {
+  private _uploadHotelImage(
+    file?: File,
+    hotelId?: string
+  ): Observable<string | null> {
     if (!file || !hotelId) return of(null);
     const filePath = `hotels/${hotelId}/${file.name}`;
     const storageRef = ref(this._storage, filePath);
@@ -64,5 +101,4 @@ export class HotelsService {
       switchMap(() => from(getDownloadURL(storageRef)))
     );
   }
-
 }

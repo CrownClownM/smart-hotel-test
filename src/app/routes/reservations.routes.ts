@@ -6,7 +6,7 @@ export const ReservationsRoutes: Route[] = [
     loadComponent: () => import('@pages/reservations/list/list.component').then(c => c.ListComponent)
   },
   {
-    path: 'crear/:id',
+    path: 'crear/:id/:start/:end',
     loadComponent: () => import('@pages/reservations/create/create.component').then(c => c.CreateComponent)
   },
 ]

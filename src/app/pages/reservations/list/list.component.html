@@ -24,12 +24,20 @@
       </td>
       <td>
         <label>{{ headings[2] }}</label>
-        <div>
-          {{item.price | currency : 'COP' : 'symbol-narrow' : '.0-0'}}
-        </div>
+        <div>{{ item.start_date | date: 'dd/MM/y' }}</div>
       </td>
       <td>
         <label>{{ headings[3] }}</label>
+        <div>{{ item.end_date | date: 'dd/MM/y'  }}</div>
+      </td>
+      <td>
+        <label>{{ headings[4] }}</label>
+        <div>
+          {{ calculateDays(item.start_date, item.end_date)*item.price | currency : 'COP' : 'symbol-narrow' : '.0-0'}}
+        </div>
+      </td>
+      <td>
+        <label>{{ headings[5] }}</label>
         <div class="flex flex-row justify-end md:justify-center">
           <lg-dropdown>
             <table-action (click)="openModalDetails(item)">

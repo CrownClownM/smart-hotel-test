@@ -44,6 +44,117 @@ export class RoomsService {
     );
   }
 
+  public getUserCollection(hotelId: string) {
+    const ref = collection(this._firestore, 'rooms');
+    const q = query(ref, where('hotelId', '==', hotelId), where('enabled', '==', true));
+    return from(getDocs(q)).pipe(
+      map((snapshot) => {
+        const rooms: roomsData[] = snapshot.docs.map((doc) => {
+          const data = doc.data() as Omit<roomsData, 'id'>;
+          return { id: doc.id, ...data };
+        });
+        this._roomsList$.set(rooms);
+        return rooms;
+      })
+    );
+  }
+
+  public getGeneralCollection() {
+    const ref = collection(this._firestore, 'rooms');
+    const q = query(ref, where('enabled', '==', true));
+    return from(getDocs(q)).pipe(
+      map((snapshot) => {
+        const rooms: roomsData[] = snapshot.docs.map((doc) => {
+          const data = doc.data() as Omit<roomsData, 'id'>;
+          return { id: doc.id, ...data };
+        });
+        this._roomsList$.set(rooms);
+        return rooms;
+      })
+    );
+  }
+
+  public getGeneralAdminCollection() {
+    const ref = collection(this._firestore, 'rooms');
+    return from(getDocs(ref)).pipe(
+      map((snapshot) => {
+        const rooms: roomsData[] = snapshot.docs.map((doc) => {
+          const data = doc.data() as Omit<roomsData, 'id'>;
+          return { id: doc.id, ...data };
+        });
+        this._roomsList$.set(rooms);
+        return rooms;
+      })
+    );
+  }
+
+  public getCollectionByParams(hotelId: string) {
+    const ref = collection(this._firestore, 'rooms');
+    const q = query(ref, where('hotelId', '==', hotelId), where('enabled', '==', true));
+    return from(getDocs(q)).pipe(
+      map((snapshot) => {
+        const rooms: roomsData[] = snapshot.docs.map((doc) => {
+          const data = doc.data() as Omit<roomsData, 'id'>;
+          return { id: doc.id, ...data };
+        });
+        this._roomsList$.set(rooms);
+        return rooms;
+      })
+    );
+  }
+
+  public getAvailableRooms(city: string | null = null, guests: number, startDate: string, endDate: string, hotelId: string | null = null) {
+    const roomsRef = collection(this._firestore, 'rooms');
+    const reservationsRef = collection(this._firestore, 'reservations');
+
+    const reservationsQuery = query(
+      reservationsRef,
+      where('start_date', '<=', endDate),
+      where('end_date', '>=', startDate)
+    );
+
+    return from(getDocs(reservationsQuery)).pipe(
+      map((snapshot) => {
+        if (snapshot.empty) {
+          return new Set();
+        }
+
+        const reservedRoomIds = new Set(snapshot.docs.map(doc => doc.data()['roomId']));
+        return reservedRoomIds;
+      }),
+      switchMap((reservedRoomIds) => {
+        const filters = [
+          where('enabled', '==', true),
+          where('quantity', '>=', guests)
+        ];
+
+        if (hotelId !== null) {
+          filters.push(where('hotelId', '==', hotelId));
+        }
+        if (city !== null){
+          filters.push(where('location', '==', city));
+        }
+
+        const roomsQuery = query(roomsRef, ...filters);
+
+        return from(getDocs(roomsQuery)).pipe(
+          map((snapshot) => {
+            if (snapshot.empty) {
+              this._roomsList$.set([]);
+              return [];
+            }
+
+            const availableRooms = snapshot.docs
+              .map(doc => ({ id: doc.id, ...doc.data() } as roomsData))
+              .filter(room => !reservedRoomIds.has(room.id));
+            this._roomsList$.set(availableRooms);
+            return availableRooms;
+          })
+        );
+      })
+    );
+  }
+
   public getRoomById(id: string): Observable<any> {
     const roomRef = doc(this._firestore, `rooms/${id}`);
     return docData(roomRef, { idField: 'id' });

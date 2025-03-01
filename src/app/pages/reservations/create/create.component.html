@@ -59,7 +59,7 @@
               {{ formHelper.getErrors(castToFG(passForm).controls["document"]) }}
             </lg-alert>
           </lg-number-input>
-          <lg-date-input label="Fecha de nacimiento*" formControlName="birthdate"
+          <lg-date-input label="Fecha de nacimiento*" formControlName="birthdate" [max]="minDate()"
             [error]="formHelper.checkErrors(castToFG(passForm).controls['birthdate'])">
             <lg-alert [display]="formHelper.checkErrors(castToFG(passForm).controls['birthdate'])" alertStyle="text"
               alertType="error">
@@ -83,30 +83,35 @@
         </div>
       </div>
     </ng-container>
-    @if(passengers.length < roomInfo.quantity){
-      <lg-button type="button" variant="outlined" class="flex justify-end" (click)="addPassengers()">
-        Agregar pasajero
+    @if(passengers.length < roomInfo.quantity){ <lg-button type="button" variant="outlined" class="flex justify-end"
+      (click)="addPassengers()">
+      Agregar pasajero
       </lg-button>
-    }
+      }
   </div>
   <app-title tag="h3" className="mb-2">
     Fechas de la estadía
   </app-title>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <lg-date-input label="Fecha inicial*" formControlName="start_date"
-      [error]="formHelper.checkErrors(form.controls['start_date'])">
-      <lg-alert [display]="formHelper.checkErrors(form.controls['start_date'])" alertStyle="text"
-        alertType="error">
-        {{ formHelper.getErrors(form.controls["start_date"]) }}
-      </lg-alert>
-    </lg-date-input>
-    <lg-date-input label="Fecha final*" formControlName="end_date"
-      [error]="formHelper.checkErrors(form.controls['end_date'])">
-      <lg-alert [display]="formHelper.checkErrors(form.controls['end_date'])" alertStyle="text"
-        alertType="error">
-        {{ formHelper.getErrors(form.controls["end_date"]) }}
-      </lg-alert>
-    </lg-date-input>
+  <div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <lg-date-input label="Fecha inicial*" formControlName="start_date" [min]="minDate()"
+        [error]="formHelper.checkErrors(form.controls['start_date'])">
+        <lg-alert [display]="formHelper.checkErrors(form.controls['start_date'])" alertStyle="text" alertType="error">
+          {{ formHelper.getErrors(form.controls["start_date"]) }}
+        </lg-alert>
+      </lg-date-input>
+      <lg-date-input label="Fecha final*" formControlName="end_date"
+        [error]="formHelper.checkErrors(form.controls['end_date'])" [min]="minDate()">
+        <lg-alert [display]="formHelper.checkErrors(form.controls['end_date'])" alertStyle="text" alertType="error">
+          {{ formHelper.getErrors(form.controls["end_date"]) }}
+        </lg-alert>
+      </lg-date-input>
+    </div>
+    <lg-alert [display]="(form.hasError('invalidDate') || form.hasError('invalidRange')) &&
+      form.get('start_date')!.touched && form.get('end_date')!.touched"
+      alertStyle="text" alertType="error">
+      {{ formHelper.getErrors(form) }}
+    </lg-alert>
   </div>
 
   <app-title tag="h3" className="mb-2">

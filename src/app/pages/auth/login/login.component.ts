@@ -69,7 +69,7 @@ export class LoginComponent {
           text: 'Bienvenido',
           type: 'success',
         });
-        this._router.navigate(['/app/inicio']);
+        this._router.navigate(['/app/hoteles/lista']);
         this.loading.set(false);
       },
       error: () => {
