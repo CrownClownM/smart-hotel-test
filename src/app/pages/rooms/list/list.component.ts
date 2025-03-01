@@ -153,8 +153,6 @@ export class ListComponent extends Permissions implements OnInit {
       form: this.form,
       selector: '.error',
       callback: (value) => {
-        console.log(value);
-
         this.loading.set(true);
         if(this.isGeneralList){
           this.roomsService.getAvailableRooms(value.ubication.city, value.guests, value.start_date, value.end_date, null).subscribe({
